@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+body {
+  width: 100%; }
+
+h1 {
+  color: pink;
+  font-size: 50px; }
+
+h2 {
+  color: blueviolet; }
+
+p {
+  color: green; }
+
+main {
+  display: block; }
