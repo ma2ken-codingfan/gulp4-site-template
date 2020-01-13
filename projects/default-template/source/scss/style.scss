@@ -5,18 +5,8 @@
 @import './foundation/variables';
 @import './foundation/base';
 @import './foundation/mixin';
+@import './foundation/l-layout';
 
+@import './layout/**';
 
-@import './layout/l-contents';
-@import './layout/l-header';
-@import './layout/l-footer';
-@import './layout/l-main';
-@import './layout/l-sidebar';
-
-@import './object/component/c-button';
-
-@import './object/project/p-profile';
-
-@import './object/utility/u-color';
-
-@import './object/theme/t-blue';
+@import './object/**';

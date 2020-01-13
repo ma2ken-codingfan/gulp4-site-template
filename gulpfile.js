@@ -4,6 +4,7 @@ const header = require("gulp-header")
 const replace = require("gulp-replace")
 const plumber = require("gulp-plumber")
 const postcss = require('gulp-postcss')
+const sassGlob = require("gulp-sass-glob")
 const autoprefixer = require('gulp-autoprefixer')
 const notify= require("gulp-notify")
 const sourcemaps = require('gulp-sourcemaps')
@@ -36,6 +37,7 @@ const htmlFunc = done => {
 
 const styles = done => {
   src(fileSrc.scss)
+    .pipe(sassGlob())
     .pipe(sourcemaps.init())
     .pipe(plumber(notify.onError('Error: <%= error.message %>')))
     .pipe(
