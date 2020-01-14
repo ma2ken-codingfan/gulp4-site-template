@@ -15,7 +15,7 @@ const topDir = 'projects/'
 const secDir = 'default-template/'
 const source = 'source/'
 const output = 'output/'
-const deproy = 'deproy'
+const deproy = 'deproy/'
 
 const sourcePath = topDir + secDir + source
 const outputPath = topDir + secDir + output
@@ -23,7 +23,9 @@ const deproyPath = topDir + secDir + deproy
 
 const fileSrc = {
   html: `${sourcePath}html/**/*.html`,
-  scss: `${sourcePath}scss/**/*.scss`
+  scss: `${sourcePath}scss/**/*.scss`,
+  js: `${sourcePath}js/**/*.js`,
+  img: `${sourcePath}img/**/*`,
 }
 
 const htmlFunc = done => {
@@ -35,6 +37,23 @@ const htmlFunc = done => {
   done()
 }
 
+const jsFunc = done => {
+  src(fileSrc.js)
+    .pipe(plumber(notify.onError('Error: <%= error.message %>')))
+    .pipe(dest(outputPath))
+    .pipe(dest(deproyPath))
+    .pipe(browserSync.reload({ stream: true }))
+  done()
+}
+
+const imgFunc = done => {
+  src(fileSrc.img)
+    .pipe(plumber(notify.onError('Error: <%= error.message %>')))
+    .pipe(dest(outputPath  + 'img/'))
+    .pipe(dest(deproyPath  + 'img/'))
+    .pipe(browserSync.reload({ stream: true }))
+  done()
+}
 const styles = done => {
   src(fileSrc.scss)
     .pipe(sassGlob())
@@ -84,9 +103,11 @@ const watchTasks = (done) => {
     done()
   }
   watch(`${fileSrc.html}`, series(htmlFunc, browserReload))
+  watch(`${fileSrc.js}`, series(jsFunc, browserReload))
   watch(`${fileSrc.scss}`, series(styles, browserReload))
   done()
 }
 
 // exports でgulpから叩ける
-exports.default = series(clean, htmlFunc, styles, parallel(buildServer, watchTasks))
+exports.default = series(clean, htmlFunc, jsFunc, imgFunc, styles, parallel(buildServer, watchTasks))
+exports.imgFunc = imgFunc
